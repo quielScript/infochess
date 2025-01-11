@@ -1,15 +1,19 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { updateName } from "./userSlice";
 
 function LoginForm() {
 	const [username, setUSername] = useState("");
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	function handleSubmit(e) {
 		e.preventDefault();
-		if (username.trim() !== "") {
-			navigate("/app");
-		}
+		if (!username.trim()) return;
+		dispatch(updateName(username));
+		navigate("/app");
+		setUSername("");
 	}
 
 	return (

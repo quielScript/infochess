@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Logo from "./Logo";
+import Username from "../features/user/Username";
 
 function NavBar() {
 	return (
@@ -21,7 +22,7 @@ function NavBar() {
 					</li>
 					<li className="transition-all duration-150 hover:text-oliveGreen">
 						<Link to="#">
-							<span className="font-bold uppercase">User</span>
+							<Username />
 						</Link>
 					</li>
 				</ul>
