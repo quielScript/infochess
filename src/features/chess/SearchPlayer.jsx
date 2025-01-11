@@ -1,10 +1,22 @@
 import { useState } from "react";
+import { searchPlayer } from "../../services/apiChess";
+import { useDispatch } from "react-redux";
+import { setSearchedPlayer } from "./chessInfoSlice";
 
 function SearchPlayer() {
 	const [usernameQuery, setUsernameQuery] = useState("");
+	const dispatch = useDispatch();
 
-	function handleSubmit(e) {
+	async function handleSubmit(e) {
 		e.preventDefault();
+		if (!usernameQuery.trim()) return;
+
+		try {
+			const searchedPlayer = await searchPlayer(usernameQuery);
+			dispatch(setSearchedPlayer(searchedPlayer));
+		} catch (e) {
+			console.log(e);
+		}
 	}
 
 	return (
