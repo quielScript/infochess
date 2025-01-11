@@ -1,5 +1,11 @@
+import PlayerProfile from "../features/chess/PlayerProfile";
+
 function Profile() {
-	return <div>Profile page</div>;
+	return (
+		<main>
+			<PlayerProfile />
+		</main>
+	);
 }
 
 export default Profile;
