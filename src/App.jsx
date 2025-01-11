@@ -1,4 +1,8 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+	createBrowserRouter,
+	Navigate,
+	RouterProvider,
+} from "react-router-dom";
 import AppLayout from "./ui/AppLayout";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
@@ -17,7 +21,7 @@ const router = createBrowserRouter([
 		children: [
 			{
 				index: true,
-				element: <Profile />,
+				element: <Navigate replace to="searchPlayer" />,
 			},
 			{
 				path: "searchPlayer",
