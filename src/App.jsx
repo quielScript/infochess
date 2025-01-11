@@ -5,10 +5,10 @@ import {
 } from "react-router-dom";
 import AppLayout from "./ui/AppLayout";
 import Home from "./pages/Home";
-import Profile from "./pages/Profile";
 import TitledPlayers from "./pages/TitledPlayers";
 import LeaderBoards from "./pages/LeaderBoards";
 import Streamers from "./pages/Streamers";
+import PlayerProfile from "./pages/PlayerProfile";
 
 const router = createBrowserRouter([
 	{
@@ -25,7 +25,11 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "searchPlayer",
-				element: <Profile />,
+				element: <PlayerProfile />,
+			},
+			{
+				path: "searchPlayer/:usernameQuery",
+				element: <PlayerProfile />,
 			},
 			{
 				path: "titledPlayers",

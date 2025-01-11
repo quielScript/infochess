@@ -10,7 +10,7 @@ function LoginForm() {
 
 	function handleSubmit(e) {
 		e.preventDefault();
-		if (!username.trim()) return;
+		if (!username) return;
 		dispatch(updateName(username));
 		navigate("/app");
 		setUSername("");

@@ -19,3 +19,18 @@ export async function searchPlayer(username) {
 		console.log(e);
 	}
 }
+
+export async function getPlayerStats(username) {
+	try {
+		const res = await fetch(
+			`https://api.chess.com/pub/player/${username}/stats`
+		);
+		if (!res.ok) {
+			throw Error("Failed getting player stats");
+		}
+		const data = await res.json();
+		return data;
+	} catch (e) {
+		console.log(e);
+	}
+}

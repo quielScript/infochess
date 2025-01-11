@@ -2,18 +2,21 @@ import { useState } from "react";
 import { searchPlayer } from "../../services/apiChess";
 import { useDispatch } from "react-redux";
 import { setSearchedPlayer } from "./chessInfoSlice";
+import { useNavigate } from "react-router-dom";
 
 function SearchPlayer() {
 	const [usernameQuery, setUsernameQuery] = useState("");
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	async function handleSubmit(e) {
 		e.preventDefault();
-		if (!usernameQuery.trim()) return;
+		if (!usernameQuery) return;
 
 		try {
 			const searchedPlayer = await searchPlayer(usernameQuery);
 			dispatch(setSearchedPlayer(searchedPlayer));
+			navigate(`/app/searchPlayer/${usernameQuery}`, { replace: true });
 		} catch (e) {
 			console.log(e);
 		}
