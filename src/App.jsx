@@ -16,6 +16,7 @@ import Streamers, {
 } from "./features/chess/Streamers";
 import UserProfile from "./features/user/UserProfile";
 import Player, { loader as playerLoader } from "./features/chess/Player";
+import Error from "./ui/Error";
 
 const router = createBrowserRouter([
 	{
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
 	{
 		path: "/app",
 		element: <AppLayout />,
+		errorElement: <Error />,
 		children: [
 			{
 				index: true,
@@ -37,21 +39,25 @@ const router = createBrowserRouter([
 			{
 				path: "searchPlayer/:usernameQuery",
 				element: <Player />,
+				errorElement: <Error />,
 				loader: playerLoader,
 			},
 			{
 				path: "titledPlayers/:title",
 				element: <TitledPlayers />,
+				errorElement: <Error />,
 				loader: titledPlayersLoader,
 			},
 			{
 				path: "leaderboards/:category",
 				element: <LeaderBoards />,
+				errorElement: <Error />,
 				loader: leaderboardsLoader,
 			},
 			{
 				path: "streamers",
 				element: <Streamers />,
+				errorElement: <Error />,
 				loader: streamersLoader,
 			},
 			{
