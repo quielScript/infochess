@@ -1,5 +1,11 @@
+import StreamersList from "../features/chess/StreamersList";
+
 function Streamers() {
-	return <div>Streamers page</div>;
+	return (
+		<div>
+			<StreamersList />
+		</div>
+	);
 }
 
 export default Streamers;
