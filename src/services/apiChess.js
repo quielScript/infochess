@@ -47,3 +47,16 @@ export async function getTitledPlayers(title) {
 		console.log(e);
 	}
 }
+
+export async function getLeaderboards() {
+	try {
+		const res = await fetch("https://api.chess.com/pub/leaderboards");
+		if (!res.ok) {
+			throw Error("Failed getting leaderboards");
+		}
+		const data = await res.json();
+		return data;
+	} catch (e) {
+		console.log(e);
+	}
+}

@@ -38,12 +38,11 @@ function TitledPlayersList() {
 				<p className="font-bold text-center">Categories</p>
 				<ul>
 					{titleCategories.map((title) => (
-						<li
-							className="py-2 text-center border-b border-transparentWhite"
-							key={title}
-						>
-							<Link to={`/app/titledPlayers/${title}`}>{title}</Link>
-						</li>
+						<Link to={`/app/titledPlayers/${title}`} key={title}>
+							<li className="py-2 text-center border-b border-transparentWhite">
+								{title}
+							</li>
+						</Link>
 					))}
 				</ul>
 			</div>

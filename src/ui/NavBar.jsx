@@ -15,7 +15,7 @@ function NavBar() {
 						<Link to="titledPlayers/GM">Titled players</Link>
 					</li>
 					<li className="transition-all duration-150 hover:text-oliveGreen">
-						<Link to="leaderboards">Leaderboards</Link>
+						<Link to="leaderboards/daily">Leaderboards</Link>
 					</li>
 					<li className="transition-all duration-150 hover:text-oliveGreen">
 						<Link to="streamers">Streamers</Link>
