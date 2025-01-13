@@ -5,14 +5,17 @@ import {
 } from "react-router-dom";
 import AppLayout from "./ui/AppLayout";
 import Home from "./pages/Home";
-import TitledPlayers from "./pages/TitledPlayers";
-import LeaderBoards from "./pages/LeaderBoards";
-import Streamers from "./pages/Streamers";
-import PlayerProfile from "./pages/PlayerProfile";
-import { loader as titledPlayersLoader } from "./features/chess/TitledPlayersList";
-import { loader as leaderboardsLoader } from "./features/chess/LeaderBoardsList";
-import { loader as streamersLoader } from "./features/chess/StreamersList";
+import TitledPlayers, {
+	loader as titledPlayersLoader,
+} from "./features/chess/TitledPlayers";
+import LeaderBoards, {
+	loader as leaderboardsLoader,
+} from "./features/chess/LeaderBoards";
+import Streamers, {
+	loader as streamersLoader,
+} from "./features/chess/Streamers";
 import UserProfile from "./features/user/UserProfile";
+import Player from "./features/chess/Player";
 
 const router = createBrowserRouter([
 	{
@@ -29,11 +32,11 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "searchPlayer",
-				element: <PlayerProfile />,
+				element: <Player />,
 			},
 			{
 				path: "searchPlayer/:usernameQuery",
-				element: <PlayerProfile />,
+				element: <Player />,
 			},
 			{
 				path: "titledPlayers/:title",
