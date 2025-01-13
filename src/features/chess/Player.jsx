@@ -59,7 +59,7 @@ function Player() {
 		<div className="p-10 mx-auto mt-20 rounded-t-md max-w-7xl bg-smokyBlack">
 			<SearchPlayer />
 
-			{Object.keys(searchedPlayer).length > 0 && (
+			{Object.keys(searchedPlayer).length > 0 && statsEntries && (
 				<>
 					<div className="flex mb-10 space-x-5 mt-14">
 						<img
@@ -85,9 +85,9 @@ function Player() {
 					<p className="mb-10 text-lg font-bold text-center text-transparentWhite">
 						Player statistics
 					</p>
-					<div className="grid grid-cols-4 gap-4 text-transparentWhite">
-						{statsEntries &&
-							statsEntries.map(([statName, statValue], i) => (
+					{statsEntries && (
+						<div className="grid grid-cols-4 gap-4 text-transparentWhite">
+							{statsEntries.map(([statName, statValue], i) => (
 								<div
 									className="p-3 border rounded-md border-transparentWhite w-72"
 									key={i}
@@ -98,7 +98,8 @@ function Player() {
 									{renderStatValue(statValue)}
 								</div>
 							))}
-					</div>
+						</div>
+					)}
 				</>
 			)}
 		</div>
