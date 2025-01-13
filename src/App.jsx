@@ -9,6 +9,7 @@ import TitledPlayers from "./pages/TitledPlayers";
 import LeaderBoards from "./pages/LeaderBoards";
 import Streamers from "./pages/Streamers";
 import PlayerProfile from "./pages/PlayerProfile";
+import { loader as titledPlayersLoader } from "./features/chess/TitledPlayersList";
 
 const router = createBrowserRouter([
 	{
@@ -32,8 +33,9 @@ const router = createBrowserRouter([
 				element: <PlayerProfile />,
 			},
 			{
-				path: "titledPlayers",
+				path: "titledPlayers/:title",
 				element: <TitledPlayers />,
+				loader: titledPlayersLoader,
 			},
 			{
 				path: "leaderboards",

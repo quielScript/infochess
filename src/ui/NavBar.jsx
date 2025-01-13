@@ -12,7 +12,7 @@ function NavBar() {
 						<Link to="searchPlayer">Search player</Link>
 					</li>
 					<li className="transition-all duration-150 hover:text-oliveGreen">
-						<Link to="titledPlayers">Titled players</Link>
+						<Link to="titledPlayers/GM">Titled players</Link>
 					</li>
 					<li className="transition-all duration-150 hover:text-oliveGreen">
 						<Link to="leaderboards">Leaderboards</Link>

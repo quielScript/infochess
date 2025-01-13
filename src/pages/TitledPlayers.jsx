@@ -1,5 +1,7 @@
+import TitledPlayersList from "../features/chess/TitledPlayersList";
+
 function TitledPlayers() {
-	return <div>Titled players page</div>;
+	return <TitledPlayersList />;
 }
 
 export default TitledPlayers;
