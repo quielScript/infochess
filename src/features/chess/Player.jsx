@@ -1,8 +1,7 @@
 import { useSelector } from "react-redux";
 import SearchPlayer from "./SearchPlayer";
 import { getSearchedPlayer } from "./chessInfoSlice";
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useLoaderData } from "react-router-dom";
 import { getPlayerStats } from "../../services/apiChess";
 import { formatDate } from "../../utils/helpers";
 
@@ -45,9 +44,9 @@ function renderStatValue(value) {
 }
 
 function Player() {
-	const [playerStats, setPlayerstats] = useState({});
 	const searchedPlayer = useSelector(getSearchedPlayer);
-	const { usernameQuery } = useParams();
+	const playerStats = useLoaderData();
+	const statsEntries = !playerStats ? undefined : Object.entries(playerStats);
 	const {
 		avatar,
 		username,
@@ -55,23 +54,6 @@ function Player() {
 		league = "none",
 		player_id,
 	} = searchedPlayer;
-
-	useEffect(
-		function () {
-			async function awaitPlayerStats() {
-				try {
-					const playerStats = await getPlayerStats(usernameQuery);
-					setPlayerstats(playerStats);
-				} catch (e) {
-					console.log(e);
-				}
-			}
-			awaitPlayerStats();
-		},
-		[usernameQuery]
-	);
-
-	const statsEntries = Object.entries(playerStats);
 
 	return (
 		<main>
@@ -105,23 +87,29 @@ function Player() {
 							Player statistics
 						</p>
 						<div className="grid grid-cols-4 gap-4 text-transparentWhite">
-							{statsEntries.map(([statName, statValue], i) => (
-								<div
-									className="p-3 border rounded-md border-transparentWhite w-72"
-									key={i}
-								>
-									<p className="mb-2 font-semibold capitalize">
-										{statName.split("_").join(" ")}
-									</p>
-									{renderStatValue(statValue)}
-								</div>
-							))}
+							{statsEntries &&
+								statsEntries.map(([statName, statValue], i) => (
+									<div
+										className="p-3 border rounded-md border-transparentWhite w-72"
+										key={i}
+									>
+										<p className="mb-2 font-semibold capitalize">
+											{statName.split("_").join(" ")}
+										</p>
+										{renderStatValue(statValue)}
+									</div>
+								))}
 						</div>
 					</>
 				)}
 			</div>
 		</main>
 	);
+}
+
+export async function loader({ params }) {
+	const playerStats = await getPlayerStats(params.usernameQuery);
+	return playerStats;
 }
 
 export default Player;

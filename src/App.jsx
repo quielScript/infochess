@@ -15,7 +15,7 @@ import Streamers, {
 	loader as streamersLoader,
 } from "./features/chess/Streamers";
 import UserProfile from "./features/user/UserProfile";
-import Player from "./features/chess/Player";
+import Player, { loader as playerLoader } from "./features/chess/Player";
 
 const router = createBrowserRouter([
 	{
@@ -37,6 +37,7 @@ const router = createBrowserRouter([
 			{
 				path: "searchPlayer/:usernameQuery",
 				element: <Player />,
+				loader: playerLoader,
 			},
 			{
 				path: "titledPlayers/:title",
