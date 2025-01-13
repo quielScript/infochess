@@ -11,6 +11,7 @@ import Streamers from "./pages/Streamers";
 import PlayerProfile from "./pages/PlayerProfile";
 import { loader as titledPlayersLoader } from "./features/chess/TitledPlayersList";
 import { loader as leaderboardsLoader } from "./features/chess/LeaderBoardsList";
+import { loader as streamersLoader } from "./features/chess/StreamersList";
 
 const router = createBrowserRouter([
 	{
@@ -46,6 +47,7 @@ const router = createBrowserRouter([
 			{
 				path: "streamers",
 				element: <Streamers />,
+				loader: streamersLoader,
 			},
 		],
 	},

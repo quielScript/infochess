@@ -5,7 +5,7 @@
 // const PLAYER_STATS_API_URL =
 // 	"https://api.chess.com/pub/player/{username}/stats";
 // const LEADERBOARDS_API_URL = "https://api.chess.com/pub/leaderboards";
-// const STREAMERS_API_URL = "https://api.chess.com/pub/leaderboards";
+// const STREAMERS_API_URL = "https://api.chess.com/pub/streamers";
 
 export async function searchPlayer(username) {
 	try {
@@ -53,6 +53,19 @@ export async function getLeaderboards() {
 		const res = await fetch("https://api.chess.com/pub/leaderboards");
 		if (!res.ok) {
 			throw Error("Failed getting leaderboards");
+		}
+		const data = await res.json();
+		return data;
+	} catch (e) {
+		console.log(e);
+	}
+}
+
+export async function getStreamers() {
+	try {
+		const res = await fetch("https://api.chess.com/pub/streamers");
+		if (!res.ok) {
+			throw Error("Failed getting streamers");
 		}
 		const data = await res.json();
 		return data;
