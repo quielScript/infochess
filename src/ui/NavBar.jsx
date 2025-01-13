@@ -21,7 +21,7 @@ function NavBar() {
 						<Link to="streamers">Streamers</Link>
 					</li>
 					<li className="transition-all duration-150 hover:text-oliveGreen">
-						<Link to="#">
+						<Link to="user">
 							<Username />
 						</Link>
 					</li>
