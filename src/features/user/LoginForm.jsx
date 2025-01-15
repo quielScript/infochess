@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { updateName } from "./userSlice";
+import Button from "../../ui/Button";
 
 function LoginForm() {
 	const [username, setUSername] = useState("");
@@ -32,12 +33,7 @@ function LoginForm() {
 					value={username}
 					onChange={(e) => setUSername(e.target.value)}
 				/>
-				<button
-					type="submit"
-					className="px-8 py-2 text-base bg-white rounded-md text-warmBlack"
-				>
-					Enter
-				</button>
+				<Button btnType="normal">Enter</Button>
 			</div>
 		</form>
 	);
