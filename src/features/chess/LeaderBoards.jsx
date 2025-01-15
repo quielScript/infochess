@@ -1,5 +1,6 @@
 import { Link, useLoaderData, useParams } from "react-router-dom";
 import { getLeaderboards } from "../../services/apiChess";
+import { handleActiveLinkClass } from "../../utils/helpers";
 
 function LeaderBoards() {
 	const leaderboards = useLoaderData();
@@ -62,10 +63,20 @@ function LeaderBoards() {
 			<div className="pl-10">
 				<p className="font-bold text-center">Categories</p>
 				<ul>
-					{leaderboardsCategories.map((category) => (
-						<Link to={`/app/leaderboards/${category}`} key={category}>
+					{leaderboardsCategories.map((leaderboardsCategory) => (
+						<Link
+							to={`/app/leaderboards/${leaderboardsCategory}`}
+							key={leaderboardsCategory}
+						>
 							<li className="py-2 text-center capitalize border-b border-transparentWhite">
-								{category.split("_").join(" ")}
+								<span
+									className={`${handleActiveLinkClass(
+										leaderboardsCategory,
+										category
+									)}`}
+								>
+									{leaderboardsCategory.split("_").join(" ")}
+								</span>
 							</li>
 						</Link>
 					))}
