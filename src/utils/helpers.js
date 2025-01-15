@@ -8,3 +8,7 @@ export function formatDate(timestamp) {
 	// Format the date
 	return date.toLocaleDateString("en-US", options);
 }
+
+export function handleActiveLinkClass(linkName, activeLink) {
+	return activeLink === linkName ? "text-oliveGreen" : "";
+}
