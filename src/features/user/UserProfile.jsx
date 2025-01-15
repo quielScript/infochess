@@ -11,7 +11,7 @@ function UserProfile() {
 			<div className="flex flex-col items-center space-y-3">
 				<p className="text-xl font-bold text-white">{username}</p>
 				<Link to="/">
-					<Button btnType="logout">Enter</Button>
+					<Button btnType="logout">Log out</Button>
 				</Link>
 			</div>
 		</div>

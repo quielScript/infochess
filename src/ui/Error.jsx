@@ -8,11 +8,11 @@ function Error() {
 			<h1>Something went wrong 😢</h1>
 			<p>{error.data || error.message}.</p>
 			<p>
-				Please refresh the page or go back to main page by clicking the link
+				Please refresh the page or go back to login page by clicking the link
 				below.
 			</p>
-			<Link to="/app" className="text-brightCyan">
-				&larr; Back to Main page
+			<Link to="/" className="text-brightCyan">
+				&larr; Back to Login page
 			</Link>
 		</div>
 	);

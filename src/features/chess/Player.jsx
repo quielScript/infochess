@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import SearchPlayer from "./SearchPlayer";
 import { getSearchedPlayer } from "./chessInfoSlice";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router-dom";
 import { getPlayerStats } from "../../services/apiChess";
 import { formatDate } from "../../utils/helpers";
 
@@ -44,6 +44,7 @@ function renderStatValue(value) {
 }
 
 function Player() {
+	const { usernameQuery } = useParams();
 	const searchedPlayer = useSelector(getSearchedPlayer);
 	const playerStats = useLoaderData();
 	const statsEntries = !playerStats ? undefined : Object.entries(playerStats);
@@ -56,8 +57,14 @@ function Player() {
 	} = searchedPlayer;
 
 	return (
-		<div className="p-10 mx-auto mt-20 rounded-t-md max-w-7xl bg-smokyBlack">
+		<div className="p-10 mx-auto mt-20 rounded-t-md max-w-7xl bg-smokyBlack min-h-dvh">
 			<SearchPlayer />
+
+			{!usernameQuery && (
+				<p className="mt-20 text-lg text-center text-transparentWhite">
+					Nothing to show here... search a player first.
+				</p>
+			)}
 
 			{Object.keys(searchedPlayer).length > 0 && statsEntries && (
 				<>

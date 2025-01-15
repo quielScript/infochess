@@ -10,7 +10,7 @@ function NavBar() {
 	return (
 		<header className="bg-smokyBlack">
 			<nav className="flex items-center justify-between py-2 mx-auto mt-0 max-w-7xl">
-				<Logo />
+				<Logo onClick={() => setActiveNavLink("searchPlayer")} />
 				<ul className="flex items-center space-x-5 text-transparentWhite">
 					<li
 						className={`transition-all duration-150 hover:text-oliveGreen" ${handleActiveLinkClass(

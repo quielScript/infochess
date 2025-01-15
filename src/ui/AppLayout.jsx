@@ -9,7 +9,6 @@ function AppLayout() {
 	return (
 		<main>
 			{isLoading && <Loader />}
-
 			<NavBar />
 			<Outlet />
 		</main>
