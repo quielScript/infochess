@@ -1,5 +1,6 @@
 import { Link, useLoaderData, useParams } from "react-router-dom";
 import { getTitledPlayers } from "../../services/apiChess";
+import { handleActiveLinkClass } from "../../utils/helpers";
 
 function TitledPlayers() {
 	const { title } = useParams();
@@ -37,10 +38,17 @@ function TitledPlayers() {
 			<div className="pl-10">
 				<p className="font-bold text-center">Categories</p>
 				<ul>
-					{titleCategories.map((title) => (
-						<Link to={`/app/titledPlayers/${title}`} key={title}>
+					{titleCategories.map((titleCategory) => (
+						<Link
+							to={`/app/titledPlayers/${titleCategory}`}
+							key={titleCategory}
+						>
 							<li className="py-2 text-center border-b border-transparentWhite">
-								{title}
+								<span
+									className={`${handleActiveLinkClass(titleCategory, title)}`}
+								>
+									{titleCategory}
+								</span>
 							</li>
 						</Link>
 					))}
