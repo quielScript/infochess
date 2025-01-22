@@ -1,38 +1,42 @@
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { updateName } from "./userSlice";
+import { useForm } from "react-hook-form";
 import Button from "../../ui/Button";
 
 function LoginForm() {
-	const [username, setUSername] = useState("");
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const { register, handleSubmit, reset, formState } = useForm();
+	const { errors } = formState;
 
-	function handleSubmit(e) {
-		e.preventDefault();
-		if (!username) return;
-		dispatch(updateName(username));
+	function onSubmit(data) {
+		const { name } = data;
+		dispatch(updateName(name));
 		navigate("/app");
-		setUSername("");
+		reset();
 	}
 
 	return (
-		<form onSubmit={handleSubmit}>
+		<form onSubmit={handleSubmit(onSubmit)}>
 			<div className="flex flex-col items-start space-y-2">
-				<label htmlFor="username" className="text-transparentWhite">
+				<label htmlFor="name" className="text-transparentWhite">
 					Proceed by entering your name
 				</label>
-				<input
-					required
-					type="text"
-					id="username"
-					name="username"
-					className="bg-transparent border-[1px] rounded-md border-transparentWhite py-2 px-4 w-full text-transparentWhite"
-					placeholder="Enter name"
-					value={username}
-					onChange={(e) => setUSername(e.target.value)}
-				/>
+				<div>
+					<input
+						type="text"
+						id="name"
+						className="bg-transparent border-[1px] rounded-md border-transparentWhite py-2 px-4 w-full text-transparentWhite"
+						placeholder="Enter name"
+						{...register("name", {
+							required: "Please enter your name",
+						})}
+					/>
+				</div>
+				{errors?.name?.message && (
+					<p className="text-red-600">{errors.name.message}</p>
+				)}
 				<Button btnType="normal">Enter</Button>
 			</div>
 		</form>
