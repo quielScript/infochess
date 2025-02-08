@@ -86,9 +86,20 @@ function LeaderBoards() {
 	);
 }
 
-export async function loader() {
-	const leaderboards = getLeaderboards();
-	return leaderboards;
+export function loader(queryClient) {
+	return async function () {
+		const queryKey = ["leaderboards"];
+
+		const cachedData = queryClient.getQueryData(queryKey);
+
+		if (cachedData) return cachedData;
+
+		const data = await getLeaderboards();
+
+		queryClient.setQueryData(queryKey, data);
+
+		return data;
+	};
 }
 
 export default LeaderBoards;

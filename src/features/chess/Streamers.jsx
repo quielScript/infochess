@@ -51,8 +51,19 @@ function Streamers() {
 	);
 }
 
-export async function loader() {
-	const streamers = getStreamers();
-	return streamers;
+export function loader(queryClient) {
+	return async function () {
+		const queryKey = ["streamers"];
+
+		const cachedData = queryClient.getQueryData(queryKey);
+
+		if (cachedData) return cachedData;
+
+		const streamers = await getStreamers();
+
+		queryClient.setQueryData(queryKey, streamers);
+
+		return streamers;
+	};
 }
 export default Streamers;

@@ -55,13 +55,13 @@ const router = createBrowserRouter([
 				path: "leaderboards/:category",
 				element: <LeaderBoards />,
 				errorElement: <Error />,
-				loader: leaderboardsLoader,
+				loader: leaderboardsLoader(queryClient),
 			},
 			{
 				path: "streamers",
 				element: <Streamers />,
 				errorElement: <Error />,
-				loader: streamersLoader,
+				loader: streamersLoader(queryClient),
 			},
 			{
 				path: "user",
