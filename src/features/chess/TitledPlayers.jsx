@@ -58,9 +58,23 @@ function TitledPlayers() {
 	);
 }
 
-export async function loader({ params }) {
-	const titledPlayers = await getTitledPlayers(params.title);
-	return titledPlayers;
+export function loader(queryClient) {
+	return async function ({ params }) {
+		const queryKey = ["titledPlayers", params.title];
+
+		// Check if data is in cache
+		const cachedData = queryClient.getQueryData(queryKey);
+
+		if (cachedData) return cachedData;
+
+		// Fetch data if not in cache
+		const data = await getTitledPlayers(params.title);
+
+		// Store data in cache
+		queryClient.setQueryData(queryKey, data);
+
+		return data;
+	};
 }
 
 export default TitledPlayers;
