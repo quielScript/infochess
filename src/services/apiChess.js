@@ -16,7 +16,7 @@ export async function searchPlayer(username) {
 export async function getPlayerStats(username) {
 	try {
 		const res = await fetch(
-			`https://api.chess.com/pub/player/${username}/stats`
+			`https://api.chess.com/pub/player/${username}/stats`,
 		);
 		if (!res.ok) {
 			throw Error("Failed getting player stats");
