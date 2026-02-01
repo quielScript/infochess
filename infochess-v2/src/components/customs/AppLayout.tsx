@@ -6,8 +6,11 @@ function AppLayout(): React.JSX.Element {
 	return (
 		<>
 			<Header />
-
-			<Outlet />
+			<main>
+				<div className="max-w-7xl mx-auto bg-smokyBlack mt-20 rounded-t-md p-10 min-h-dvh">
+					<Outlet />
+				</div>
+			</main>
 		</>
 	);
 }
