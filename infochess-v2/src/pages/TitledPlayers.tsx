@@ -26,12 +26,17 @@ import {
 	SelectLabel,
 	SelectSeparator,
 } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
 
 function TitledPlayers(): React.JSX.Element {
 	return (
 		<>
 			<div className="flex items-center justify-between mb-5">
-				<h1 className="text-base font-medium">Titled Players</h1>
+				<h1 className="flex h-5 gap-4 text-base font-medium">
+					<span>Titled Players</span>
+					<Separator orientation="vertical" />
+					<span className="text-oliveGreen">Grand Master (GM)</span>
+				</h1>
 				<Select>
 					<SelectTrigger className="w-full max-w-48">
 						<SelectValue placeholder="Select a category" />

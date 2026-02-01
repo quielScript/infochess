@@ -26,12 +26,25 @@ import {
 	SelectLabel,
 	SelectSeparator,
 } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
+import RankBadge from "@/components/ui/RankBadge";
 
 function Leaderboards(): React.JSX.Element {
+	const rankBadgeStyles = {
+		1: "bg-yellow-50 text-yellow-800 dark:bg-yellow-950 dark:text-yellow-300",
+		2: "bg-gray-100 text-gray-700 dark:bg-gray-900 dark:text-gray-300",
+		3: "bg-orange-100 text-orange-800 dark:bg-orange-950 dark:text-orange-300",
+	};
+
 	return (
 		<>
 			<div className="flex items-center justify-between mb-5">
-				<h1 className="text-base font-medium">Leaderboards</h1>
+				<h1 className="flex h-5 gap-4 text-base font-medium">
+					<span>Leaderboards</span>
+					<Separator orientation="vertical" />
+					<span className="text-oliveGreen">Daily</span>
+				</h1>
 				<Select>
 					<SelectTrigger className="w-full max-w-48">
 						<SelectValue placeholder="Select a category" />
@@ -82,7 +95,72 @@ function Leaderboards(): React.JSX.Element {
 				</TableHeader>
 				<TableBody>
 					<TableRow>
-						<TableCell className="font-medium"># 1</TableCell>
+						<TableCell className="font-medium">
+							<RankBadge rank={1} />
+						</TableCell>
+						<TableCell className="font-medium">
+							<div className="flex items-center gap-3">
+								<Avatar>
+									<AvatarImage
+										src="https://github.com/shadcn.png"
+										alt="@shadcn"
+										className="grayscale"
+									/>
+									<AvatarFallback>HK</AvatarFallback>
+								</Avatar>
+								<p>Hikaru Nakamura</p>
+							</div>
+						</TableCell>
+						<TableCell className="font-medium">hikaru</TableCell>
+						<TableCell className="font-medium">Grand Master (GM)</TableCell>
+						<TableCell className="font-medium">9000</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell className="font-medium">
+							<RankBadge rank={2} />
+						</TableCell>
+						<TableCell className="font-medium">
+							<div className="flex items-center gap-3">
+								<Avatar>
+									<AvatarImage
+										src="https://github.com/shadcn.png"
+										alt="@shadcn"
+										className="grayscale"
+									/>
+									<AvatarFallback>HK</AvatarFallback>
+								</Avatar>
+								<p>Hikaru Nakamura</p>
+							</div>
+						</TableCell>
+						<TableCell className="font-medium">hikaru</TableCell>
+						<TableCell className="font-medium">Grand Master (GM)</TableCell>
+						<TableCell className="font-medium">9000</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell className="font-medium">
+							<RankBadge rank={3} />
+						</TableCell>
+						<TableCell className="font-medium">
+							<div className="flex items-center gap-3">
+								<Avatar>
+									<AvatarImage
+										src="https://github.com/shadcn.png"
+										alt="@shadcn"
+										className="grayscale"
+									/>
+									<AvatarFallback>HK</AvatarFallback>
+								</Avatar>
+								<p>Hikaru Nakamura</p>
+							</div>
+						</TableCell>
+						<TableCell className="font-medium">hikaru</TableCell>
+						<TableCell className="font-medium">Grand Master (GM)</TableCell>
+						<TableCell className="font-medium">9000</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell className="font-medium">
+							<RankBadge rank={4} />
+						</TableCell>
 						<TableCell className="font-medium">
 							<div className="flex items-center gap-3">
 								<Avatar>
