@@ -70,10 +70,10 @@ function TitledPlayers(): React.JSX.Element {
 			<Table className="mb-5">
 				<TableHeader>
 					<TableRow>
-						<TableHead className="w-md">Name</TableHead>
+						<TableHead className="w-md">Player</TableHead>
 						<TableHead className="w-md">Username</TableHead>
 						<TableHead className="w-md">Country</TableHead>
-						<TableHead>Title</TableHead>
+						<TableHead className="w-md">Title</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
