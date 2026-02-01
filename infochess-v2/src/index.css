@@ -42,6 +42,20 @@
 	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
 	--color-sidebar-border: var(--sidebar-border);
 	--color-sidebar-ring: var(--sidebar-ring);
+
+	/* CUSTOM COLORS */
+	/* PAGE BG */
+	--color-warmBlack: #312e2b;
+	/* CARD BG */
+	--color-smokyBlack: #272522;
+	/* HEADER TXT */
+	--color-lightGray: #d9d9d9;
+	/* NORMAL TXT */
+	--color-transparentWhite: #ffffffd9;
+	/* LINK */
+	--color-brightCyan: #009fd9;
+	/* STATE */
+	--color-oliveGreen: #81b64c;
 }
 
 :root {
