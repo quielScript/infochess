@@ -13,7 +13,7 @@ import Streamers from "@/pages/Streamers";
 
 const router = createBrowserRouter([
 	{
-		path: "/app",
+		path: "/",
 		element: <AppLayout />,
 		errorElement: <Error />,
 		children: [
