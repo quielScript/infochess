@@ -27,16 +27,9 @@ import {
 	SelectSeparator,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
 import RankBadge from "@/components/ui/RankBadge";
 
 function Leaderboards(): React.JSX.Element {
-	const rankBadgeStyles = {
-		1: "bg-yellow-50 text-yellow-800 dark:bg-yellow-950 dark:text-yellow-300",
-		2: "bg-gray-100 text-gray-700 dark:bg-gray-900 dark:text-gray-300",
-		3: "bg-orange-100 text-orange-800 dark:bg-orange-950 dark:text-orange-300",
-	};
-
 	return (
 		<>
 			<div className="flex items-center justify-between mb-5">
