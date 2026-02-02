@@ -5,11 +5,11 @@ import {
 } from "react-router-dom";
 
 import AppLayout from "@/components/customs/AppLayout";
-import Error from "@/pages/Error";
-import Player from "@/pages/Player";
-import TitledPlayers from "@/pages/TitledPlayers";
-import Leaderboards from "@/pages/Leaderboards";
-import Streamers from "@/pages/Streamers";
+import Player from "@/features/chess/Player";
+import TitledPlayers from "@/features/chess/TitledPlayers";
+import Leaderboards from "@/features/chess/Leaderboards";
+import Streamers from "@/features/chess/Streamers";
+import Error from "@/components/customs/Error";
 
 const router = createBrowserRouter([
 	{

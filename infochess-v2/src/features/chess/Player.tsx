@@ -1,9 +1,9 @@
-import InputInline from "@/components/customs/InputInline";
+import SearchForm from "@/components/customs/SearchForm";
 
 function Player(): React.JSX.Element {
 	return (
 		<div>
-			<InputInline />
+			<SearchForm />
 			<div className="text-center mt-20">
 				<p>Nothing to show here... search a player first.</p>
 			</div>
