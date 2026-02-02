@@ -72,7 +72,7 @@ function LeaderBoards() {
 								<span
 									className={`${handleActiveLinkClass(
 										leaderboardsCategory,
-										category
+										category,
 									)}`}
 								>
 									{leaderboardsCategory.split("_").join(" ")}
