@@ -92,6 +92,12 @@ export interface Trend {
 	delta: number;
 }
 
+export interface LeaderboardCategory {
+	value: string;
+	label: string;
+	group: "time" | "live" | "variant" | "other";
+}
+
 export interface LeaderboardPlayer {
 	player_id: number;
 	"@id": string;
@@ -119,19 +125,19 @@ export interface LeaderboardPlayer {
 }
 
 export interface Leaderboards {
-	daily?: LeaderboardPlayer[];
-	daily960?: LeaderboardPlayer[];
+	daily: LeaderboardPlayer[];
+	daily960: LeaderboardPlayer[];
 
-	live_rapid?: LeaderboardPlayer[];
-	live_blitz?: LeaderboardPlayer[];
-	live_bullet?: LeaderboardPlayer[];
-	live_bughouse?: LeaderboardPlayer[];
-	live_blitz960?: LeaderboardPlayer[];
-	live_threecheck?: LeaderboardPlayer[];
+	live_rapid: LeaderboardPlayer[];
+	live_blitz: LeaderboardPlayer[];
+	live_bullet: LeaderboardPlayer[];
+	live_bughouse: LeaderboardPlayer[];
+	live_blitz960: LeaderboardPlayer[];
+	live_threecheck: LeaderboardPlayer[];
 
-	tactics?: LeaderboardPlayer[];
-	rush?: LeaderboardPlayer[];
-	battle?: LeaderboardPlayer[];
+	tactics: LeaderboardPlayer[];
+	rush: LeaderboardPlayer[];
+	battle: LeaderboardPlayer[];
 }
 
 // Titled Players

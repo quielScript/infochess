@@ -23,6 +23,7 @@ export default defineConfig([
 			"no-unused-vars": "warn",
 			"@typescript-eslint/no-unused-vars": "warn",
 			"react/prop-types": "off",
+			"react-refresh/only-export-components": "off",
 		},
 	},
 ]);

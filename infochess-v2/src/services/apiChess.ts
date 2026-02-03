@@ -16,7 +16,7 @@ export async function searchPlayer(username: string): Promise<ChessPlayer> {
 			throw new Error("Failed searching player");
 		}
 
-		const data = res.json();
+		const data = await res.json();
 
 		return data;
 	} catch (err: unknown) {
@@ -38,7 +38,7 @@ export async function getPlayerStats(username: string): Promise<ChessStats> {
 			throw new Error("Failed getting player stats");
 		}
 
-		const data = res.json();
+		const data = await res.json();
 
 		return data;
 	} catch (err: unknown) {
@@ -58,7 +58,7 @@ export async function getLeaderBoards(): Promise<Leaderboards> {
 			throw new Error("Failed getting leaderboards");
 		}
 
-		const data = res.json();
+		const data: Leaderboards = await res.json();
 
 		return data;
 	} catch (err: unknown) {
@@ -78,7 +78,7 @@ export async function getTitledPlayers(title: string): Promise<TitledPlayers> {
 			throw Error("Failed getting titled players");
 		}
 
-		const data = res.json();
+		const data = await res.json();
 
 		return data;
 	} catch (err: unknown) {
@@ -98,7 +98,7 @@ export async function getStreamers(): Promise<Streamers> {
 			throw Error("Failed getting streamers");
 		}
 
-		const data = res.json();
+		const data = await res.json();
 
 		return data;
 	} catch (err) {

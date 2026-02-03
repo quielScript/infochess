@@ -3,13 +3,18 @@ import {
 	Navigate,
 	RouterProvider,
 } from "react-router-dom";
+import { QueryClient } from "@tanstack/react-query";
 
 import AppLayout from "@/components/customs/AppLayout";
 import Player from "@/features/chess/Player";
 import TitledPlayers from "@/features/chess/TitledPlayers";
-import Leaderboards from "@/features/chess/Leaderboards";
+import Leaderboard, {
+	loader as leaderboardsLoader,
+} from "@/features/chess/Leaderboard";
 import Streamers from "@/features/chess/Streamers";
 import Error from "@/components/customs/Error";
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
 	{
@@ -37,8 +42,9 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "leaderboards/:category",
-				element: <Leaderboards />,
+				element: <Leaderboard />,
 				errorElement: <Error />,
+				loader: leaderboardsLoader(queryClient),
 			},
 			{
 				path: "streamers",
