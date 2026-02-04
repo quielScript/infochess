@@ -124,7 +124,7 @@ export interface LeaderboardPlayer {
 	name?: string;
 }
 
-export interface Leaderboards {
+export interface LeaderboardsResponse {
 	daily: LeaderboardPlayer[];
 	daily960: LeaderboardPlayer[];
 
@@ -145,7 +145,13 @@ export interface TitledPlayer {
 	username: string;
 }
 
-export interface TitledPlayers {
+export interface TitleCategory {
+	value: string;
+	label: string;
+	group: "gm" | "im" | "fm" | "nm/cm";
+}
+
+export interface TitledPlayersResponse {
 	players: TitledPlayer[];
 }
 

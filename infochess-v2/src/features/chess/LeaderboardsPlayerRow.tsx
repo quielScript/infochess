@@ -12,7 +12,7 @@ function LeaderboardsPlayerRow({
 	player,
 }: LeaderboardsPlayerRowProps): React.JSX.Element {
 	return (
-		<TableRow key={player.player_id}>
+		<TableRow>
 			<TableCell className="font-medium">
 				<RankBadge rank={player.rank} />
 			</TableCell>

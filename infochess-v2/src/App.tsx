@@ -7,7 +7,9 @@ import { QueryClient } from "@tanstack/react-query";
 
 import AppLayout from "@/components/customs/AppLayout";
 import Player from "@/features/chess/Player";
-import TitledPlayers from "@/features/chess/TitledPlayers";
+import TitledPlayers, {
+	loader as titledPLayersLoader,
+} from "@/features/chess/TitledPlayers";
 import Leaderboard, {
 	loader as leaderboardsLoader,
 } from "@/features/chess/Leaderboard";
@@ -39,6 +41,7 @@ const router = createBrowserRouter([
 				path: "titledPlayers/:title",
 				element: <TitledPlayers />,
 				errorElement: <Error />,
+				loader: titledPLayersLoader(queryClient),
 			},
 			{
 				path: "leaderboards/:category",

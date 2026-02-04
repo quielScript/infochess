@@ -3,9 +3,9 @@
 import type {
 	ChessPlayer,
 	ChessStats,
-	Leaderboards,
+	LeaderboardsResponse,
 	Streamers,
-	TitledPlayers,
+	TitledPlayersResponse,
 } from "@/types";
 
 export async function searchPlayer(username: string): Promise<ChessPlayer> {
@@ -50,7 +50,7 @@ export async function getPlayerStats(username: string): Promise<ChessStats> {
 	}
 }
 
-export async function getLeaderBoards(): Promise<Leaderboards> {
+export async function getLeaderBoards(): Promise<LeaderboardsResponse> {
 	try {
 		const res = await fetch("https://api.chess.com/pub/leaderboards");
 
@@ -58,7 +58,7 @@ export async function getLeaderBoards(): Promise<Leaderboards> {
 			throw new Error("Failed getting leaderboards");
 		}
 
-		const data: Leaderboards = await res.json();
+		const data: LeaderboardsResponse = await res.json();
 
 		return data;
 	} catch (err: unknown) {
@@ -70,7 +70,9 @@ export async function getLeaderBoards(): Promise<Leaderboards> {
 	}
 }
 
-export async function getTitledPlayers(title: string): Promise<TitledPlayers> {
+export async function getTitledPlayers(
+	title: string,
+): Promise<TitledPlayersResponse> {
 	try {
 		const res = await fetch(`https://api.chess.com/pub/titled/${title}`);
 
@@ -78,7 +80,7 @@ export async function getTitledPlayers(title: string): Promise<TitledPlayers> {
 			throw Error("Failed getting titled players");
 		}
 
-		const data = await res.json();
+		const data: TitledPlayersResponse = await res.json();
 
 		return data;
 	} catch (err: unknown) {
