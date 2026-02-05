@@ -35,7 +35,7 @@ const router = createBrowserRouter([
 				element: <Player />,
 			},
 			{
-				path: "searchPlayer/:userNameQuery",
+				path: "searchPlayer/:usernameQuery",
 				element: <Player />,
 			},
 			{

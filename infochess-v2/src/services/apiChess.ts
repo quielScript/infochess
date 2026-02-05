@@ -10,13 +10,14 @@ import type {
 
 export async function searchPlayer(username: string): Promise<ChessPlayer> {
 	try {
-		const res = await fetch(`https://api.chess.com/pub/player${username}`);
-
-		if (!res.ok) {
-			throw new Error("Failed searching player");
-		}
+		const res = await fetch(`https://api.chess.com/pub/player/${username}`);
 
 		const data = await res.json();
+
+		if (!res.ok) {
+			// Chess.com sends error details in the response body
+			throw new Error(data.message || "Failed searching player");
+		}
 
 		return data;
 	} catch (err: unknown) {

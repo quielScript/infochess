@@ -1,6 +1,9 @@
 import SearchForm from "@/components/customs/SearchForm";
+import { useParams } from "react-router-dom";
 
 function Player(): React.JSX.Element {
+	const { usernameQuery } = useParams();
+
 	return (
 		<div>
 			<SearchForm />
