@@ -13,7 +13,9 @@ import TitledPlayers, {
 import Leaderboard, {
 	loader as leaderboardsLoader,
 } from "@/features/chess/Leaderboard";
-import Streamers from "@/features/chess/Streamers";
+import Streamers, {
+	loader as streamersLoader,
+} from "@/features/chess/Streamers";
 import Error from "@/components/customs/Error";
 
 const queryClient = new QueryClient();
@@ -53,6 +55,7 @@ const router = createBrowserRouter([
 				path: "streamers",
 				element: <Streamers />,
 				errorElement: <Error />,
+				loader: streamersLoader(queryClient),
 			},
 		],
 	},

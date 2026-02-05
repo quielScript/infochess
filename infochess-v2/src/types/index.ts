@@ -161,7 +161,7 @@ export interface StreamingPlatform {
 	channel_url: string;
 	is_live: boolean;
 
-	streamer_url?: string;
+	stream_url?: string;
 	is_main_live_platform?: boolean;
 }
 
