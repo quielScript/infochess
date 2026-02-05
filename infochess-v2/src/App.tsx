@@ -22,9 +22,9 @@ const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
 	{
+		errorElement: <Error />,
 		path: "/",
 		element: <AppLayout />,
-		errorElement: <Error />,
 		children: [
 			{
 				index: true,
@@ -37,24 +37,20 @@ const router = createBrowserRouter([
 			{
 				path: "searchPlayer/:userNameQuery",
 				element: <Player />,
-				errorElement: <Error />,
 			},
 			{
 				path: "titledPlayers/:title",
 				element: <TitledPlayers />,
-				errorElement: <Error />,
 				loader: titledPLayersLoader(queryClient),
 			},
 			{
 				path: "leaderboards/:category",
 				element: <Leaderboard />,
-				errorElement: <Error />,
 				loader: leaderboardsLoader(queryClient),
 			},
 			{
 				path: "streamers",
 				element: <Streamers />,
-				errorElement: <Error />,
 				loader: streamersLoader(queryClient),
 			},
 		],
