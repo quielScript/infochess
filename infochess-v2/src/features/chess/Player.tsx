@@ -5,7 +5,9 @@ function Player(): React.JSX.Element {
 		<div>
 			<SearchForm />
 			<div className="text-center mt-20">
-				<p>Nothing to show here... search a player first.</p>
+				<p className="text-sm">
+					Nothing to show here... search a player first.
+				</p>
 			</div>
 		</div>
 	);
