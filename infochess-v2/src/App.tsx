@@ -3,7 +3,8 @@ import {
 	Navigate,
 	RouterProvider,
 } from "react-router-dom";
-import { QueryClient } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import AppLayout from "@/components/customs/AppLayout";
 import Player, { loader as playerLoader } from "@/features/chess/Player";
@@ -59,5 +60,10 @@ const router = createBrowserRouter([
 ]);
 
 export default function App() {
-	return <RouterProvider router={router} />;
+	return (
+		<QueryClientProvider client={queryClient}>
+			<RouterProvider router={router} />
+			<ReactQueryDevtools initialIsOpen={false} />
+		</QueryClientProvider>
+	);
 }

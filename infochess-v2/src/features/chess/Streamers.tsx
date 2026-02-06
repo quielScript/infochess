@@ -31,7 +31,7 @@ import type { QueryClient } from "@tanstack/react-query";
 import { getStreamers } from "@/services/apiChess";
 import { useLoaderData } from "react-router-dom";
 import StreamerPlatformBadge from "@/features/chess/StreamerPlatformBadge";
-import type { Streamer } from "@/types";
+import { type Streamer, type StreamersResponse } from "@/types";
 import { useState } from "react";
 import { Separator } from "@/components/ui/separator";
 
@@ -276,11 +276,11 @@ export function loader(queryClient: QueryClient) {
 	return async function () {
 		const queryKey = ["streamers"];
 
-		const cachedData = queryClient.getQueryData(queryKey);
+		const cachedData = queryClient.getQueryData<StreamersResponse>(queryKey);
 
 		if (cachedData) return cachedData;
 
-		const data = await getStreamers();
+		const data: StreamersResponse = await getStreamers();
 
 		queryClient.setQueryData(queryKey, data);
 

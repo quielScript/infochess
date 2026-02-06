@@ -32,7 +32,7 @@ import { getLeaderBoards } from "@/services/apiChess";
 import type {
 	LeaderboardCategory,
 	LeaderboardPlayer,
-	TitledPlayersResponse,
+	LeaderboardsResponse,
 } from "@/types";
 import LeaderboardsPlayerRow from "@/features/chess/LeaderboardsPlayerRow";
 
@@ -277,12 +277,11 @@ function Leaderboard(): React.JSX.Element {
 export function loader(queryClient: QueryClient) {
 	return async function () {
 		const queryKey = ["leaderboards"];
-		const cachedData =
-			queryClient.getQueryData<TitledPlayersResponse>(queryKey);
+		const cachedData = queryClient.getQueryData<LeaderboardsResponse>(queryKey);
 
 		if (cachedData) return cachedData;
 
-		const data = await getLeaderBoards();
+		const data: LeaderboardsResponse = await getLeaderBoards();
 
 		queryClient.setQueryData(queryKey, data);
 

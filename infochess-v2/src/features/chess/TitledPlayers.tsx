@@ -268,11 +268,11 @@ export function loader(queryClient: QueryClient) {
 		const title = params.title ?? "GM";
 		const queryKey = ["titledPlayers", title];
 		const cachedData =
-			queryClient.getQueryData<TitledPlayersResponse[]>(queryKey);
+			queryClient.getQueryData<TitledPlayersResponse>(queryKey);
 
 		if (cachedData) return cachedData;
 
-		const data = await getTitledPlayers(title);
+		const data: TitledPlayersResponse = await getTitledPlayers(title);
 
 		queryClient.setQueryData(queryKey, data);
 

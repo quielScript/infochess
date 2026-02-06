@@ -178,6 +178,6 @@ export interface Streamer {
 	twitch_url?: string;
 }
 
-export interface Streamers {
+export interface StreamersResponse {
 	streamers: Streamer[];
 }

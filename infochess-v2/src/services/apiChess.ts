@@ -4,7 +4,7 @@ import type {
 	ChessPlayer,
 	ChessStats,
 	LeaderboardsResponse,
-	Streamers,
+	StreamersResponse,
 	TitledPlayersResponse,
 } from "@/types";
 
@@ -39,7 +39,7 @@ export async function getPlayerStats(username: string): Promise<ChessStats> {
 			throw new Error("Failed getting player stats");
 		}
 
-		const data = await res.json();
+		const data: ChessStats = await res.json();
 
 		return data;
 	} catch (err: unknown) {
@@ -93,7 +93,7 @@ export async function getTitledPlayers(
 	}
 }
 
-export async function getStreamers(): Promise<Streamers> {
+export async function getStreamers(): Promise<StreamersResponse> {
 	try {
 		const res = await fetch("https://api.chess.com/pub/streamers");
 
@@ -101,7 +101,7 @@ export async function getStreamers(): Promise<Streamers> {
 			throw Error("Failed getting streamers");
 		}
 
-		const data = await res.json();
+		const data: StreamersResponse = await res.json();
 
 		return data;
 	} catch (err) {
