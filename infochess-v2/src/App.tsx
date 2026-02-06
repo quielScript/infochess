@@ -6,7 +6,7 @@ import {
 import { QueryClient } from "@tanstack/react-query";
 
 import AppLayout from "@/components/customs/AppLayout";
-import Player from "@/features/chess/Player";
+import Player, { loader as playerLoader } from "@/features/chess/Player";
 import TitledPlayers, {
 	loader as titledPLayersLoader,
 } from "@/features/chess/TitledPlayers";
@@ -37,6 +37,7 @@ const router = createBrowserRouter([
 			{
 				path: "searchPlayer/:usernameQuery",
 				element: <Player />,
+				loader: playerLoader,
 			},
 			{
 				path: "titledPlayers/:title",

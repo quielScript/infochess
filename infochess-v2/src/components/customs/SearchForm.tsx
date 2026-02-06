@@ -18,13 +18,16 @@ export function SearchForm() {
 	async function handleSubmit(e: FormEvent) {
 		e.preventDefault();
 
-		if (!username) return;
+		if (!username) {
+			return toast.error("Username is required", { position: "top-center" });
+		}
 
 		try {
 			setIsLoading(true);
 			const searchedPlayer = await searchPlayer(username);
 			dispatch(setSearchedPlayer(searchedPlayer));
 			navigate(`/searchPlayer/${username}`, { replace: true });
+			setUsername("");
 		} catch (err: unknown) {
 			if (err instanceof Error) {
 				toast.error(err.message, { position: "top-center" });

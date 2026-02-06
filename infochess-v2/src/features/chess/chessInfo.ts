@@ -1,12 +1,13 @@
 import type { RootState } from "@/store";
+import type { ChessPlayer } from "@/types";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface ChessInfoState {
-	searchedPlayer: object;
+	searchedPlayer: ChessPlayer | null;
 }
 
 const initialState: ChessInfoState = {
-	searchedPlayer: {},
+	searchedPlayer: null,
 };
 
 const chessInfoSlice = createSlice({
