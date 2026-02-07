@@ -34,10 +34,11 @@ import { usePagination } from "@/hooks/usePagination";
 
 function Leaderboard(): React.JSX.Element {
 	const [currentPage, setCurrentPage] = useState<number>(1);
-	const leaderboards = useLoaderData();
-	const { category = "daily" } = useParams();
+	const leaderboards = useLoaderData() as LeaderboardsResponse;
+	const { category = "daily" } = useParams<{ category: string }>();
 	const navigate = useNavigate();
-	const categorizedLeaderboards = leaderboards[category];
+	const categorizedLeaderboards =
+		leaderboards[category as keyof LeaderboardsResponse];
 	const leaderboardsCategories: LeaderboardCategory[] = [
 		{ value: "daily", label: "Daily", group: "time" },
 		{ value: "daily960", label: "Daily960", group: "time" },
@@ -181,14 +182,13 @@ function Leaderboard(): React.JSX.Element {
 }
 
 export function loader(queryClient: QueryClient) {
-	return async function () {
+	return async function (): Promise<LeaderboardsResponse> {
 		const queryKey = ["leaderboards"];
 		const cachedData = queryClient.getQueryData<LeaderboardsResponse>(queryKey);
 
 		if (cachedData) return cachedData;
 
 		const data: LeaderboardsResponse = await getLeaderBoards();
-
 		queryClient.setQueryData(queryKey, data);
 
 		return data;

@@ -34,7 +34,7 @@ import { usePagination } from "@/hooks/usePagination";
 function Streamers(): React.JSX.Element {
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [platform, setPlatform] = useState<string>("all");
-	const { streamers } = useLoaderData();
+	const { streamers } = useLoaderData() as StreamersResponse;
 	const filteredStreamers = streamers.filter((streamer: Streamer) => {
 		if (platform === "all") return true;
 
@@ -191,15 +191,13 @@ function Streamers(): React.JSX.Element {
 }
 
 export function loader(queryClient: QueryClient) {
-	return async function () {
+	return async function (): Promise<StreamersResponse> {
 		const queryKey = ["streamers"];
-
 		const cachedData = queryClient.getQueryData<StreamersResponse>(queryKey);
 
 		if (cachedData) return cachedData;
 
 		const data: StreamersResponse = await getStreamers();
-
 		queryClient.setQueryData(queryKey, data);
 
 		return data;

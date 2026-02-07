@@ -152,7 +152,7 @@ export interface TitleCategory {
 }
 
 export interface TitledPlayersResponse {
-	players: TitledPlayer[];
+	players: string[];
 }
 
 // Streamers

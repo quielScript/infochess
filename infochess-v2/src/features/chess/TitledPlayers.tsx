@@ -46,7 +46,7 @@ function TitledPlayers(): React.JSX.Element {
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const { title = "GM" } = useParams();
 	const navigate = useNavigate();
-	const { players: usernames } = useLoaderData() as { players: string[] };
+	const { players } = useLoaderData() as TitledPlayersResponse;
 
 	// Pagination
 	const PLAYERS_PER_PAGE = 10;
@@ -57,27 +57,27 @@ function TitledPlayers(): React.JSX.Element {
 		canGoPrevious,
 		canGoNext,
 	} = usePagination({
-		totalItems: usernames.length,
+		totalItems: players.length,
 		itemsPerPage: PLAYERS_PER_PAGE,
 		currentPage,
 	});
 
 	// Get usernames for current page
-	const currentPageUsernames = usernames.slice(pageStartIndex, pageEndIndex);
+	const currentPageUsernames = players.slice(pageStartIndex, pageEndIndex);
 
 	// Fetch player details for current page only
-	const { data: currentPagePlayers = [], isLoading } = useQuery({
+	const { data: currentPagePlayersDetails = [], isLoading } = useQuery({
 		queryKey: ["playerDetails", title, currentPage],
 		queryFn: () => getPlayersByUsernames(currentPageUsernames),
-		// Cache for 5 minutes
 		staleTime: 1000 * 60 * 5,
 	});
 
 	// Fetch countries for current page players
 	const { data: countryMap = {} } = useQuery({
 		queryKey: ["countries", currentPage],
-		queryFn: () => getCountries(currentPagePlayers.map((p) => p.country)),
-		enabled: currentPagePlayers.length > 0,
+		queryFn: () =>
+			getCountries(currentPagePlayersDetails.map((p) => p.country)),
+		enabled: currentPagePlayersDetails.length > 0,
 		staleTime: Infinity,
 	});
 
@@ -187,7 +187,7 @@ function TitledPlayers(): React.JSX.Element {
 							</TableCell>
 						</TableRow>
 					) : (
-						currentPagePlayers.map((player: ChessPlayer) => (
+						currentPagePlayersDetails.map((player: ChessPlayer) => (
 							<TitledPlayersPlayerRow
 								key={player.username}
 								player={player}
@@ -210,7 +210,9 @@ function TitledPlayers(): React.JSX.Element {
 }
 
 export function loader(queryClient: QueryClient) {
-	return async function ({ params }: LoaderFunctionArgs) {
+	return async function ({
+		params,
+	}: LoaderFunctionArgs): Promise<TitledPlayersResponse> {
 		const title = params.title ?? "GM";
 		const queryKey = ["titledPlayers", title];
 		const cachedData =
@@ -219,7 +221,6 @@ export function loader(queryClient: QueryClient) {
 		if (cachedData) return cachedData;
 
 		const data: TitledPlayersResponse = await getTitledPlayers(title);
-
 		queryClient.setQueryData(queryKey, data);
 
 		return data;
