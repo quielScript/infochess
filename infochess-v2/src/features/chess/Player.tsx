@@ -30,6 +30,7 @@ function Player(): React.JSX.Element {
 	const { usernameQuery } = useParams();
 	const playerStats = useLoaderData() as ChessStats | undefined;
 	const searchedPlayer = useAppSelector(getSearchedPlayer);
+	const countryCode = searchedPlayer?.country?.split("/").pop();
 
 	const {
 		avatar = "",
@@ -68,7 +69,15 @@ function Player(): React.JSX.Element {
 								{/* User Info */}
 								<div className="flex-1 space-y-4">
 									<div>
-										<h1 className="text-3xl font-bold mb-2">{username}</h1>
+										<div className="flex items-center gap-3 mb-2">
+											<h1 className="text-3xl font-bold">{username}</h1>
+											<img
+												src={`https://flagsapi.com/${countryCode}/flat/24.png`}
+												alt={countryCode}
+												loading="lazy"
+												decoding="async"
+											/>
+										</div>
 										<div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
 											<div className="flex items-center gap-1.5">
 												<Calendar className="h-4 w-4" />
