@@ -21,22 +21,15 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import {
-	Pagination,
-	PaginationContent,
-	PaginationEllipsis,
-	PaginationItem,
-	PaginationLink,
-	PaginationNext,
-	PaginationPrevious,
-} from "@/components/ui/pagination";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { PaginationControls } from "@/components/customs/PaginationControls";
 
 import StreamerPlatformBadge from "@/features/chess/StreamerPlatformBadge";
 
 import { getStreamers } from "@/services/apiChess";
 import { type Streamer, type StreamersResponse } from "@/types";
+import { usePagination } from "@/hooks/usePagination";
 
 function Streamers(): React.JSX.Element {
 	const [currentPage, setCurrentPage] = useState<number>(1);
@@ -48,59 +41,23 @@ function Streamers(): React.JSX.Element {
 		return streamer.platforms.some((p) => p.type === platform);
 	});
 
-	const MAX_VISIBLE_PAGES = 5;
 	const STREAMERS_PER_PAGE = 10;
-	const totalStreamers = filteredStreamers.length;
-	const totalPages = Math.ceil(totalStreamers / STREAMERS_PER_PAGE);
+	const {
+		pageStartIndex,
+		pageEndIndex,
+		visiblePages,
+		canGoPrevious,
+		canGoNext,
+	} = usePagination({
+		totalItems: filteredStreamers.length,
+		itemsPerPage: STREAMERS_PER_PAGE,
+		currentPage,
+	});
 
-	const pageStartIndex = (currentPage - 1) * STREAMERS_PER_PAGE;
-	const pageEndIndex = pageStartIndex + STREAMERS_PER_PAGE;
 	const currentPageStreamers = filteredStreamers.slice(
 		pageStartIndex,
 		pageEndIndex,
 	);
-
-	// Pagination logic
-	const getVisiblePages = () => {
-		const pages: (number | "ellipsis")[] = [];
-
-		if (totalPages <= MAX_VISIBLE_PAGES + 2) {
-			return Array.from({ length: totalPages }, (_, i) => i + 1);
-		}
-
-		pages.push(1);
-
-		let rangeStart = Math.max(2, currentPage - 1);
-		let rangeEnd = Math.min(totalPages - 1, currentPage + 1);
-
-		if (currentPage <= 3) {
-			rangeStart = 2;
-			rangeEnd = Math.min(MAX_VISIBLE_PAGES, totalPages - 1);
-		} else if (currentPage >= totalPages - 2) {
-			rangeStart = Math.max(2, totalPages - MAX_VISIBLE_PAGES + 1);
-			rangeEnd = totalPages - 1;
-		}
-
-		if (rangeStart > 2) {
-			pages.push("ellipsis");
-		}
-
-		for (let i = rangeStart; i <= rangeEnd; i++) {
-			pages.push(i);
-		}
-
-		if (rangeEnd < totalPages - 1) {
-			pages.push("ellipsis");
-		}
-
-		if (totalPages > 1) {
-			pages.push(totalPages);
-		}
-
-		return pages;
-	};
-
-	const visiblePages = getVisiblePages();
 
 	// Helper function to check if streamer is live
 	const isStreamerLive = (streamer: Streamer): boolean => {
@@ -222,55 +179,13 @@ function Streamers(): React.JSX.Element {
 				</TableBody>
 			</Table>
 
-			<Pagination>
-				<PaginationContent>
-					<PaginationItem>
-						<PaginationPrevious
-							className={
-								currentPage === 1
-									? "pointer-events-none opacity-50"
-									: "cursor-pointer"
-							}
-							onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-						/>
-					</PaginationItem>
-
-					{visiblePages.map((page, index) => {
-						if (page === "ellipsis") {
-							return (
-								<PaginationItem key={`ellipsis-${index}`}>
-									<PaginationEllipsis />
-								</PaginationItem>
-							);
-						}
-
-						return (
-							<PaginationItem key={page}>
-								<PaginationLink
-									className="cursor-pointer"
-									isActive={currentPage === page}
-									onClick={() => setCurrentPage(page)}
-								>
-									{page}
-								</PaginationLink>
-							</PaginationItem>
-						);
-					})}
-
-					<PaginationItem>
-						<PaginationNext
-							className={
-								currentPage === totalPages
-									? "pointer-events-none opacity-50"
-									: "cursor-pointer"
-							}
-							onClick={() =>
-								setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-							}
-						/>
-					</PaginationItem>
-				</PaginationContent>
-			</Pagination>
+			<PaginationControls
+				currentPage={currentPage}
+				visiblePages={visiblePages}
+				canGoPrevious={canGoPrevious}
+				canGoNext={canGoNext}
+				onPageChange={setCurrentPage}
+			/>
 		</>
 	);
 }

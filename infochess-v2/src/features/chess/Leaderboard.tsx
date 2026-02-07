@@ -10,15 +10,6 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import {
-	Pagination,
-	PaginationContent,
-	PaginationEllipsis,
-	PaginationItem,
-	PaginationLink,
-	PaginationNext,
-	PaginationPrevious,
-} from "@/components/ui/pagination";
-import {
 	Select,
 	SelectContent,
 	SelectGroup,
@@ -29,6 +20,7 @@ import {
 	SelectSeparator,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { PaginationControls } from "@/components/customs/PaginationControls";
 
 import LeaderboardsPlayerRow from "@/features/chess/LeaderboardsPlayerRow";
 
@@ -38,6 +30,7 @@ import type {
 	LeaderboardPlayer,
 	LeaderboardsResponse,
 } from "@/types";
+import { usePagination } from "@/hooks/usePagination";
 
 function Leaderboard(): React.JSX.Element {
 	const [currentPage, setCurrentPage] = useState<number>(1);
@@ -75,69 +68,23 @@ function Leaderboard(): React.JSX.Element {
 	};
 
 	// Pagination
-	const MAX_VISIBLE_PAGES = 5;
 	const PLAYERS_PER_PAGE = 10;
-
-	const totalPlayers = categorizedLeaderboards.length;
-	const totalPages = Math.ceil(totalPlayers / PLAYERS_PER_PAGE);
-
-	const pageStartIndex = (currentPage - 1) * PLAYERS_PER_PAGE;
-	const pageEndIndex = pageStartIndex + PLAYERS_PER_PAGE;
+	const {
+		pageStartIndex,
+		pageEndIndex,
+		visiblePages,
+		canGoPrevious,
+		canGoNext,
+	} = usePagination({
+		totalItems: categorizedLeaderboards.length,
+		itemsPerPage: PLAYERS_PER_PAGE,
+		currentPage,
+	});
 
 	const currentPagePlayers = categorizedLeaderboards.slice(
 		pageStartIndex,
 		pageEndIndex,
 	);
-
-	// Pagination logic
-	const getVisiblePages = () => {
-		const pages: (number | "ellipsis")[] = [];
-
-		if (totalPages <= MAX_VISIBLE_PAGES + 2) {
-			// Show all pages if total is small
-			return Array.from({ length: totalPages }, (_, i) => i + 1);
-		}
-
-		// Always show page 1
-		pages.push(1);
-
-		// Calculate the range around current page
-		let rangeStart = Math.max(2, currentPage - 1);
-		let rangeEnd = Math.min(totalPages - 1, currentPage + 1);
-
-		// Adjust range to always show 5 pages when possible
-		if (currentPage <= 3) {
-			rangeStart = 2;
-			rangeEnd = Math.min(MAX_VISIBLE_PAGES, totalPages - 1);
-		} else if (currentPage >= totalPages - 2) {
-			rangeStart = Math.max(2, totalPages - MAX_VISIBLE_PAGES + 1);
-			rangeEnd = totalPages - 1;
-		}
-
-		// Add ellipsis after page 1 if needed
-		if (rangeStart > 2) {
-			pages.push("ellipsis");
-		}
-
-		// Add the range of pages
-		for (let i = rangeStart; i <= rangeEnd; i++) {
-			pages.push(i);
-		}
-
-		// Add ellipsis before last page if needed
-		if (rangeEnd < totalPages - 1) {
-			pages.push("ellipsis");
-		}
-
-		// Always show last page if there's more than 1 page
-		if (totalPages > 1) {
-			pages.push(totalPages);
-		}
-
-		return pages;
-	};
-
-	const visiblePages = getVisiblePages();
 
 	return (
 		<>
@@ -222,57 +169,13 @@ function Leaderboard(): React.JSX.Element {
 				</TableBody>
 			</Table>
 
-			<Pagination>
-				<PaginationContent>
-					<PaginationItem>
-						<PaginationPrevious
-							className={
-								currentPage === 1
-									? "pointer-events-none opacity-50"
-									: "cursor-pointer"
-							}
-							onClick={() =>
-								setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))
-							}
-						/>
-					</PaginationItem>
-
-					{visiblePages.map((page, index) => {
-						if (page === "ellipsis") {
-							return (
-								<PaginationItem key={`ellipsis-${index}`}>
-									<PaginationEllipsis />
-								</PaginationItem>
-							);
-						}
-
-						return (
-							<PaginationItem key={page}>
-								<PaginationLink
-									className="cursor-pointer"
-									isActive={currentPage === page}
-									onClick={() => setCurrentPage(page)}
-								>
-									{page}
-								</PaginationLink>
-							</PaginationItem>
-						);
-					})}
-
-					<PaginationItem>
-						<PaginationNext
-							className={
-								currentPage === totalPages
-									? "pointer-events-none opacity-50"
-									: "cursor-pointer"
-							}
-							onClick={() =>
-								setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-							}
-						/>
-					</PaginationItem>
-				</PaginationContent>
-			</Pagination>
+			<PaginationControls
+				currentPage={currentPage}
+				visiblePages={visiblePages}
+				canGoPrevious={canGoPrevious}
+				canGoNext={canGoNext}
+				onPageChange={setCurrentPage}
+			/>
 		</>
 	);
 }

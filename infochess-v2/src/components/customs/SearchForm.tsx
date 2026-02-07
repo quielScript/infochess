@@ -10,7 +10,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { setSearchedPlayer } from "@/features/chess/chessInfo";
 
 import { searchPlayer } from "@/services/apiChess";
-import { useAppDispatch } from "@/hooks";
+import { useAppDispatch } from "@/hooks/useRedux";
 
 export function SearchForm() {
 	const [username, setUsername] = useState<string>("");

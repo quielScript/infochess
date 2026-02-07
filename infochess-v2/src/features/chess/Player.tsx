@@ -25,7 +25,7 @@ import { getSearchedPlayer } from "@/features/chess/chessInfo";
 import { ChessModeCard } from "@/features/chess/ChessModeCard";
 import { formatDate } from "@/helpers/helpers";
 
-import { useAppSelector } from "@/hooks";
+import { useAppSelector } from "@/hooks/useRedux";
 import { getPlayerStats } from "@/services/apiChess";
 import type { ChessStats } from "@/types";
 
