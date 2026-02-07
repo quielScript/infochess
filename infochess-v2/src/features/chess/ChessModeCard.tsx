@@ -1,6 +1,3 @@
-import type { ChessMode } from "@/types";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import {
 	Trophy,
 	TrendingUp,
@@ -13,6 +10,11 @@ import {
 	Clock,
 	Crown,
 } from "lucide-react";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+
+import type { ChessMode } from "@/types";
 
 interface ChessModeCardProps {
 	title: string;

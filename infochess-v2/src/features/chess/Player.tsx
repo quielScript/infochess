@@ -1,14 +1,3 @@
-import SearchForm from "@/components/customs/SearchForm";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { getSearchedPlayer } from "@/features/chess/chessInfo";
-import { ChessModeCard } from "@/features/chess/ChessModeCard";
-import { formatDate } from "@/helpers/helpers";
-import { useAppSelector } from "@/hooks";
-import { getPlayerStats } from "@/services/apiChess";
-import type { ChessStats } from "@/types";
 import {
 	useLoaderData,
 	useParams,
@@ -25,6 +14,20 @@ import {
 	Zap,
 	Target,
 } from "lucide-react";
+
+import SearchForm from "@/components/customs/SearchForm";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+
+import { getSearchedPlayer } from "@/features/chess/chessInfo";
+import { ChessModeCard } from "@/features/chess/ChessModeCard";
+import { formatDate } from "@/helpers/helpers";
+
+import { useAppSelector } from "@/hooks";
+import { getPlayerStats } from "@/services/apiChess";
+import type { ChessStats } from "@/types";
 
 function Player(): React.JSX.Element {
 	const { usernameQuery } = useParams();
@@ -144,7 +147,7 @@ function Player(): React.JSX.Element {
 						<Separator className="mb-6" />
 
 						<div className="grid gap-4 sm:grid-cols-2">
-							{/* Enhanced Tactics */}
+							{/* Tactics */}
 							{playerStats.tactics && (
 								<Card className="overflow-hidden hover:shadow-lg transition-shadow">
 									<CardHeader>
@@ -211,7 +214,7 @@ function Player(): React.JSX.Element {
 								</Card>
 							)}
 
-							{/* Enhanced Puzzle Rush */}
+							{/* Puzzle Rush */}
 							{playerStats.puzzle_rush?.best && (
 								<Card className="overflow-hidden hover:shadow-lg transition-shadow">
 									<CardHeader>

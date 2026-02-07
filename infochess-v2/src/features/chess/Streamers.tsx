@@ -1,3 +1,8 @@
+import { useState } from "react";
+import { useLoaderData } from "react-router-dom";
+import type { QueryClient } from "@tanstack/react-query";
+import { ArrowUpRightIcon } from "lucide-react";
+
 import {
 	Select,
 	SelectContent,
@@ -26,14 +31,12 @@ import {
 	PaginationPrevious,
 } from "@/components/ui/pagination";
 import { Badge } from "@/components/ui/badge";
-import { ArrowUpRightIcon } from "lucide-react";
-import type { QueryClient } from "@tanstack/react-query";
-import { getStreamers } from "@/services/apiChess";
-import { useLoaderData } from "react-router-dom";
-import StreamerPlatformBadge from "@/features/chess/StreamerPlatformBadge";
-import { type Streamer, type StreamersResponse } from "@/types";
-import { useState } from "react";
 import { Separator } from "@/components/ui/separator";
+
+import StreamerPlatformBadge from "@/features/chess/StreamerPlatformBadge";
+
+import { getStreamers } from "@/services/apiChess";
+import { type Streamer, type StreamersResponse } from "@/types";
 
 function Streamers(): React.JSX.Element {
 	const [currentPage, setCurrentPage] = useState<number>(1);

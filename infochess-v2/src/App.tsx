@@ -7,6 +7,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import AppLayout from "@/components/customs/AppLayout";
+import Error from "@/components/customs/Error";
+
 import Player, { loader as playerLoader } from "@/features/chess/Player";
 import TitledPlayers, {
 	loader as titledPLayersLoader,
@@ -17,7 +19,6 @@ import Leaderboard, {
 import Streamers, {
 	loader as streamersLoader,
 } from "@/features/chess/Streamers";
-import Error from "@/components/customs/Error";
 
 const queryClient = new QueryClient();
 

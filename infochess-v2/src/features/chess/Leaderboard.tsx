@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { QueryClient } from "@tanstack/react-query";
+
 import {
 	Table,
 	TableBody,
@@ -28,13 +29,15 @@ import {
 	SelectSeparator,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+
+import LeaderboardsPlayerRow from "@/features/chess/LeaderboardsPlayerRow";
+
 import { getLeaderBoards } from "@/services/apiChess";
 import type {
 	LeaderboardCategory,
 	LeaderboardPlayer,
 	LeaderboardsResponse,
 } from "@/types";
-import LeaderboardsPlayerRow from "@/features/chess/LeaderboardsPlayerRow";
 
 function Leaderboard(): React.JSX.Element {
 	const [currentPage, setCurrentPage] = useState<number>(1);

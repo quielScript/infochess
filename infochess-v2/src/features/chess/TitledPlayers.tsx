@@ -1,3 +1,12 @@
+import { useState } from "react";
+import {
+	useLoaderData,
+	useNavigate,
+	useParams,
+	type LoaderFunctionArgs,
+} from "react-router-dom";
+import { useQuery, type QueryClient } from "@tanstack/react-query";
+
 import {
 	Table,
 	TableBody,
@@ -26,25 +35,19 @@ import {
 	SelectSeparator,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+
+import TitledPlayersPlayerRow from "@/features/chess/TitledPlayersPlayerRow";
+
 import {
 	type ChessPlayer,
 	type TitleCategory,
 	type TitledPlayersResponse,
 } from "@/types";
-import { useQuery, type QueryClient } from "@tanstack/react-query";
-import {
-	useLoaderData,
-	useNavigate,
-	useParams,
-	type LoaderFunctionArgs,
-} from "react-router-dom";
 import {
 	getCountries,
 	getPlayersByUsernames,
 	getTitledPlayers,
 } from "@/services/apiChess";
-import TitledPlayersPlayerRow from "@/features/chess/TitledPlayersPlayerRow";
-import { useState } from "react";
 
 function TitledPlayers(): React.JSX.Element {
 	const [currentPage, setCurrentPage] = useState<number>(1);

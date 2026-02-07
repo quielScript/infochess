@@ -1,13 +1,16 @@
 import { useState, type FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { useNavigate } from "react-router-dom";
+import { Spinner } from "@/components/ui/spinner";
+
+import { setSearchedPlayer } from "@/features/chess/chessInfo";
+
 import { searchPlayer } from "@/services/apiChess";
 import { useAppDispatch } from "@/hooks";
-import { toast } from "sonner";
-import { setSearchedPlayer } from "@/features/chess/chessInfo";
-import { Spinner } from "@/components/ui/spinner";
 
 export function SearchForm() {
 	const [username, setUsername] = useState<string>("");
