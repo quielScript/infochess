@@ -19,8 +19,10 @@ function LeaderboardsPlayerRow({
 			<TableCell className="font-medium">
 				<div className="flex items-center gap-3">
 					<Avatar>
-						<AvatarImage src={player.avatar} alt="@shadcn" />
-						<AvatarFallback>{player.rank}</AvatarFallback>
+						<AvatarImage src={player.avatar} alt={player.username} />
+						<AvatarFallback>
+							{player.username?.substring(0, 2).toUpperCase()}
+						</AvatarFallback>
 					</Avatar>
 					<p>{player.name}</p>
 				</div>

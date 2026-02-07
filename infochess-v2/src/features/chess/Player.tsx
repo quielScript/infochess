@@ -61,7 +61,7 @@ function Player(): React.JSX.Element {
 								<Avatar className="h-32 w-32 shadow-lg">
 									<AvatarImage src={avatar} alt={username} />
 									<AvatarFallback className="text-2xl">
-										{username.slice(0, 2).toUpperCase()}
+										{username.substring(0, 2).toUpperCase()}
 									</AvatarFallback>
 								</Avatar>
 

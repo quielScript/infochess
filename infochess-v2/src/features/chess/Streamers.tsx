@@ -166,7 +166,7 @@ function Streamers(): React.JSX.Element {
 												className={!isLive ? "grayscale" : ""}
 											/>
 											<AvatarFallback>
-												{streamer.username.slice(0, 2).toUpperCase()}
+												{streamer.username?.substring(0, 2).toUpperCase()}
 											</AvatarFallback>
 										</Avatar>
 										<p>{streamer.username}</p>
