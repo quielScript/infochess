@@ -93,6 +93,52 @@ export async function getTitledPlayers(
 	}
 }
 
+// Function for getting player information for titled players
+export async function getPlayersByUsernames(
+	usernames: string[],
+): Promise<ChessPlayer[]> {
+	const requests = usernames.map(async (username) => {
+		const res = await fetch(`https://api.chess.com/pub/player/${username}`);
+
+		if (!res.ok) return null;
+		return res.json();
+	});
+
+	const results = await Promise.all(requests);
+
+	// Remove failed/null entries
+	return results.filter(Boolean) as ChessPlayer[];
+}
+
+export async function getCountries(
+	countryUrls: string[],
+): Promise<Record<string, string>> {
+	const uniqueUrls = [...new Set(countryUrls.filter(Boolean))];
+
+	const requests = uniqueUrls.map(async (url) => {
+		try {
+			const res = await fetch(url);
+			if (!res.ok) return null;
+			const data = await res.json();
+			return { url, name: data.name };
+		} catch {
+			return null;
+		}
+	});
+
+	const results = await Promise.all(requests);
+
+	// Create a mapping of URL -> country name
+	const countryMap: Record<string, string> = {};
+	results.forEach((result) => {
+		if (result) {
+			countryMap[result.url] = result.name;
+		}
+	});
+
+	return countryMap;
+}
+
 export async function getStreamers(): Promise<StreamersResponse> {
 	try {
 		const res = await fetch("https://api.chess.com/pub/streamers");

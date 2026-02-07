@@ -1,6 +1,7 @@
 import {
 	Table,
 	TableBody,
+	TableCell,
 	TableHead,
 	TableHeader,
 	TableRow,
@@ -25,15 +26,23 @@ import {
 	SelectSeparator,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { type TitleCategory, type TitledPlayersResponse } from "@/types";
-import type { QueryClient } from "@tanstack/react-query";
+import {
+	type ChessPlayer,
+	type TitleCategory,
+	type TitledPlayersResponse,
+} from "@/types";
+import { useQuery, type QueryClient } from "@tanstack/react-query";
 import {
 	useLoaderData,
 	useNavigate,
 	useParams,
 	type LoaderFunctionArgs,
 } from "react-router-dom";
-import { getTitledPlayers } from "@/services/apiChess";
+import {
+	getCountries,
+	getPlayersByUsernames,
+	getTitledPlayers,
+} from "@/services/apiChess";
 import TitledPlayersPlayerRow from "@/features/chess/TitledPlayersPlayerRow";
 import { useState } from "react";
 
@@ -41,44 +50,59 @@ function TitledPlayers(): React.JSX.Element {
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const { title = "GM" } = useParams();
 	const navigate = useNavigate();
-	const { players } = useLoaderData();
+	const { players: usernames } = useLoaderData() as { players: string[] };
+
+	const PLAYERS_PER_PAGE = 10;
+	const pageStartIndex = (currentPage - 1) * PLAYERS_PER_PAGE;
+	const pageEndIndex = pageStartIndex + PLAYERS_PER_PAGE;
+
+	// Get usernames for current page
+	const currentPageUsernames = usernames.slice(pageStartIndex, pageEndIndex);
+
+	// Fetch player details for current page only
+	const { data: currentPagePlayers = [], isLoading } = useQuery({
+		queryKey: ["playerDetails", title, currentPage],
+		queryFn: () => getPlayersByUsernames(currentPageUsernames),
+		// Cache for 5 minutes
+		staleTime: 1000 * 60 * 5,
+	});
+
+	// Fetch countries for current page players
+	const { data: countryMap = {} } = useQuery({
+		queryKey: ["countries", currentPage],
+		queryFn: () => getCountries(currentPagePlayers.map((p) => p.country)),
+		enabled: currentPagePlayers.length > 0,
+		staleTime: Infinity,
+	});
 
 	const titleCategories: TitleCategory[] = [
 		{ value: "GM", label: "Grand Master (GM)", group: "gm" },
 		{ value: "WGM", label: "Woman Grand Master (WGM)", group: "gm" },
-
 		{ value: "IM", label: "International Master (IM)", group: "im" },
 		{ value: "WIM", label: "Woman International Master (WIM)", group: "im" },
-
 		{ value: "FM", label: "FIDE Master (FM)", group: "fm" },
 		{ value: "WFM", label: "Woman FIDE Master (WFM)", group: "fm" },
-
 		{ value: "NM", label: "National Master (NM)", group: "nm/cm" },
 		{ value: "WNM", label: "Woman National Master (WNM)", group: "nm/cm" },
 		{ value: "CM", label: "Candidate Master (CM)", group: "nm/cm" },
 		{ value: "WCM", label: "Woman Candidate Master (WCM)", group: "nm/cm" },
 	];
+
 	const groupedCategories = {
 		gm: titleCategories.filter((c) => c.group === "gm"),
 		im: titleCategories.filter((c) => c.group === "im"),
 		fm: titleCategories.filter((c) => c.group === "fm"),
 		nmCm: titleCategories.filter((c) => c.group === "nm/cm"),
 	};
+
 	const selectedTitleLabel =
 		titleCategories.find((cat) => cat.value === title)?.label ??
 		"Grand Master (GM)";
 
 	// Pagination
 	const MAX_VISIBLE_PAGES = 5;
-	const PLAYERS_PER_PAGE = 10;
-
-	const totalPlayers = players.length;
+	const totalPlayers = usernames.length;
 	const totalPages = Math.ceil(totalPlayers / PLAYERS_PER_PAGE);
-
-	const pageStartIndex = (currentPage - 1) * PLAYERS_PER_PAGE;
-	const pageEndIndex = pageStartIndex + PLAYERS_PER_PAGE;
-
-	const currentPagePlayers = players.slice(pageStartIndex, pageEndIndex);
 
 	// Pagination logic
 	const getVisiblePages = () => {
@@ -194,6 +218,7 @@ function TitledPlayers(): React.JSX.Element {
 					</SelectContent>
 				</Select>
 			</div>
+
 			<Table className="mb-5">
 				<TableHeader>
 					<TableRow>
@@ -204,9 +229,21 @@ function TitledPlayers(): React.JSX.Element {
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{currentPagePlayers.map((player: string) => (
-						<TitledPlayersPlayerRow key={player} player={player} />
-					))}
+					{isLoading ? (
+						<TableRow>
+							<TableCell colSpan={4} className="text-center">
+								Loading players...
+							</TableCell>
+						</TableRow>
+					) : (
+						currentPagePlayers.map((player: ChessPlayer) => (
+							<TitledPlayersPlayerRow
+								key={player.username}
+								player={player}
+								countryName={countryMap[player.country]}
+							/>
+						))
+					)}
 				</TableBody>
 			</Table>
 
