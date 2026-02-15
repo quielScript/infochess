@@ -12,7 +12,7 @@ function AppLayout(): React.JSX.Element {
 			{isLoading && <Loader />}
 			<Header />
 			<main>
-				<div className="max-w-7xl mx-auto bg-smokyBlack mt-20 rounded-t-md p-10 min-h-dvh">
+				<div className="max-w-7xl mx-4 xl:mx-auto bg-smokyBlack mt-20 rounded-t-md p-10 min-h-dvh">
 					<Outlet />
 				</div>
 			</main>
