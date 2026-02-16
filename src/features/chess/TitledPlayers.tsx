@@ -1,0 +1,230 @@
+import { useState } from "react";
+import {
+	useLoaderData,
+	useNavigate,
+	useParams,
+	type LoaderFunctionArgs,
+} from "react-router-dom";
+import { useQuery, type QueryClient } from "@tanstack/react-query";
+
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table";
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+	SelectLabel,
+	SelectSeparator,
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { PaginationControls } from "@/components/customs/PaginationControls";
+
+import TitledPlayersPlayerRow from "@/features/chess/TitledPlayersPlayerRow";
+
+import {
+	type ChessPlayer,
+	type TitleCategory,
+	type TitledPlayersResponse,
+} from "@/types";
+import {
+	getCountries,
+	getPlayersByUsernames,
+	getTitledPlayers,
+} from "@/services/apiChess";
+import { usePagination } from "@/hooks/usePagination";
+
+function TitledPlayers(): React.JSX.Element {
+	const [currentPage, setCurrentPage] = useState<number>(1);
+	const { title = "GM" } = useParams();
+	const navigate = useNavigate();
+	const { players } = useLoaderData() as TitledPlayersResponse;
+
+	// Pagination
+	const PLAYERS_PER_PAGE = 10;
+	const {
+		pageStartIndex,
+		pageEndIndex,
+		visiblePages,
+		canGoPrevious,
+		canGoNext,
+	} = usePagination({
+		totalItems: players.length,
+		itemsPerPage: PLAYERS_PER_PAGE,
+		currentPage,
+	});
+
+	// Get usernames for current page
+	const currentPageUsernames = players.slice(pageStartIndex, pageEndIndex);
+
+	// Fetch player details for current page only
+	const { data: currentPagePlayersDetails = [], isLoading } = useQuery({
+		queryKey: ["playerDetails", title, currentPage],
+		queryFn: () => getPlayersByUsernames(currentPageUsernames),
+		staleTime: 1000 * 60 * 5,
+	});
+
+	// Fetch countries for current page players
+	const { data: countryMap = {} } = useQuery({
+		queryKey: ["countries", currentPage],
+		queryFn: () =>
+			getCountries(currentPagePlayersDetails.map((p) => p.country)),
+		enabled: currentPagePlayersDetails.length > 0,
+		staleTime: Infinity,
+	});
+
+	const titleCategories: TitleCategory[] = [
+		{ value: "GM", label: "Grand Master (GM)", group: "gm" },
+		{ value: "WGM", label: "Woman Grand Master (WGM)", group: "gm" },
+		{ value: "IM", label: "International Master (IM)", group: "im" },
+		{ value: "WIM", label: "Woman International Master (WIM)", group: "im" },
+		{ value: "FM", label: "FIDE Master (FM)", group: "fm" },
+		{ value: "WFM", label: "Woman FIDE Master (WFM)", group: "fm" },
+		{ value: "NM", label: "National Master (NM)", group: "nm/cm" },
+		{ value: "WNM", label: "Woman National Master (WNM)", group: "nm/cm" },
+		{ value: "CM", label: "Candidate Master (CM)", group: "nm/cm" },
+		{ value: "WCM", label: "Woman Candidate Master (WCM)", group: "nm/cm" },
+	];
+
+	const groupedCategories = {
+		gm: titleCategories.filter((c) => c.group === "gm"),
+		im: titleCategories.filter((c) => c.group === "im"),
+		fm: titleCategories.filter((c) => c.group === "fm"),
+		nmCm: titleCategories.filter((c) => c.group === "nm/cm"),
+	};
+
+	const selectedTitleLabel =
+		titleCategories.find((cat) => cat.value === title)?.label ??
+		"Grand Master (GM)";
+
+	return (
+		<>
+			<div className="flex md:items-center gap-5 justify-between flex-col md:flex-row mb-10 md:mb-5 text-sm md:text-base">
+				<h1 className="flex h-5 gap-4 font-medium">
+					<span>Titled Players</span>
+					<Separator orientation="vertical" />
+					<span className="text-oliveGreen">{selectedTitleLabel}</span>
+				</h1>
+				<Select
+					value={title}
+					onValueChange={(value) => {
+						setCurrentPage(1);
+						navigate(`/titledPlayers/${value}`);
+					}}
+				>
+					<SelectTrigger className="w-full max-w-48">
+						<SelectValue placeholder="Select a category" />
+					</SelectTrigger>
+
+					<SelectContent>
+						<SelectGroup>
+							<SelectLabel>Grand Master</SelectLabel>
+							{groupedCategories.gm.map((cat) => (
+								<SelectItem key={cat.value} value={cat.value}>
+									{cat.label}
+								</SelectItem>
+							))}
+						</SelectGroup>
+
+						<SelectSeparator />
+
+						<SelectGroup>
+							<SelectLabel>International Master</SelectLabel>
+							{groupedCategories.im.map((cat) => (
+								<SelectItem key={cat.value} value={cat.value}>
+									{cat.label}
+								</SelectItem>
+							))}
+						</SelectGroup>
+
+						<SelectSeparator />
+
+						<SelectGroup>
+							<SelectLabel>FIDE Master</SelectLabel>
+							{groupedCategories.fm.map((cat) => (
+								<SelectItem key={cat.value} value={cat.value}>
+									{cat.label}
+								</SelectItem>
+							))}
+						</SelectGroup>
+
+						<SelectSeparator />
+
+						<SelectGroup>
+							<SelectLabel>National Master / Candidate Master</SelectLabel>
+							{groupedCategories.nmCm.map((cat) => (
+								<SelectItem key={cat.value} value={cat.value}>
+									{cat.label}
+								</SelectItem>
+							))}
+						</SelectGroup>
+					</SelectContent>
+				</Select>
+			</div>
+
+			<Table className="mb-5">
+				<TableHeader>
+					<TableRow>
+						<TableHead className="w-md">Player</TableHead>
+						<TableHead className="w-md">Username</TableHead>
+						<TableHead className="w-md">Country</TableHead>
+						<TableHead className="w-md">Title</TableHead>
+					</TableRow>
+				</TableHeader>
+				<TableBody>
+					{isLoading ? (
+						<TableRow>
+							<TableCell colSpan={4} className="text-center">
+								Loading players...
+							</TableCell>
+						</TableRow>
+					) : (
+						currentPagePlayersDetails.map((player: ChessPlayer) => (
+							<TitledPlayersPlayerRow
+								key={player.username}
+								player={player}
+								countryName={countryMap[player.country]}
+							/>
+						))
+					)}
+				</TableBody>
+			</Table>
+
+			<PaginationControls
+				currentPage={currentPage}
+				visiblePages={visiblePages}
+				canGoPrevious={canGoPrevious}
+				canGoNext={canGoNext}
+				onPageChange={setCurrentPage}
+			/>
+		</>
+	);
+}
+
+export function loader(queryClient: QueryClient) {
+	return async function ({
+		params,
+	}: LoaderFunctionArgs): Promise<TitledPlayersResponse> {
+		const title = params.title ?? "GM";
+		const queryKey = ["titledPlayers", title];
+		const cachedData =
+			queryClient.getQueryData<TitledPlayersResponse>(queryKey);
+
+		if (cachedData) return cachedData;
+
+		const data: TitledPlayersResponse = await getTitledPlayers(title);
+		queryClient.setQueryData(queryKey, data);
+
+		return data;
+	};
+}
+
+export default TitledPlayers;
