@@ -107,8 +107,8 @@ function TitledPlayers(): React.JSX.Element {
 
 	return (
 		<>
-			<div className="flex items-center justify-between mb-5">
-				<h1 className="flex h-5 gap-4 text-base font-medium">
+			<div className="flex md:items-center gap-5 justify-between flex-col md:flex-row mb-10 md:mb-5 text-sm md:text-base">
+				<h1 className="flex h-5 gap-4 font-medium">
 					<span>Titled Players</span>
 					<Separator orientation="vertical" />
 					<span className="text-oliveGreen">{selectedTitleLabel}</span>
